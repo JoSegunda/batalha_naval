@@ -152,3 +152,43 @@ let adicionar_vizinhos estado l c =
     not (List.mem (nl, nc) estado.ja_tentados)
   ) vizinhos in
   estado.proximos_tiros <- estado.proximos_tiros @ validos 
+
+(*O Ciclo de Comunicação (Protocolo) - O agente precisa de ler do 
+stdin e escrever no stdout continuamente*)
+
+let executar_agente () =
+  let estado = criar_estado 8 in
+  let continuar = ref true in
+  while !continuar do
+    let linha = read_line () in
+    let partes = String.split_on_char ' ' linha in
+    match partes with
+    | ["init"; n] -> estado.tamanho <- int_of_string n
+    | ["barco"; nome; l; c; _] -> 
+        (* Simplificação: adiciona o barco à defesa  *)
+        let coords = ref [(int_of_string l, int_of_string c)] in 
+        estado.barcos_defesa <- (nome, coords) :: estado.barcos_defesa
+    | ["random"] -> () (* Aqui você implementaria a colocação automática *)
+    | ["vou"; "eu"] | ["tiro"; _; _] as cmd ->
+        if List.hd cmd = "tiro" then (
+          let l, c = int_of_string (List.nth partes 1), int_of_string (List.nth partes 2) in
+          print_endline (processar_tiro_recebido estado l c);
+          flush stdout
+        );
+        (* Agora é a nossa vez de atacar *)
+        let (al, ac) = escolher_tiro estado in
+        estado.ja_tentados <- (al, ac) :: estado.ja_tentados;
+        Printf.printf "tiro %d %d\n" al ac;
+        flush stdout
+    | ["agua"] -> ()
+    | ["tiro"; nome] -> 
+        (* Se acertámos, entramos no Modo Caça  *)
+        let (l, c) = List.hd estado.ja_tentados in
+        adicionar_vizinhos estado l c
+    | ["afundado"; _] -> 
+        estado.proximos_tiros <- [] (* Parar de procurar este barco *)
+    | ["perdi"] -> continuar := false 
+    | _ -> ()
+  done
+
+let () = executar_agente ()
