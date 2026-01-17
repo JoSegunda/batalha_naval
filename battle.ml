@@ -28,3 +28,13 @@ type estado = {
   ataque : cell_status array array; (* Matriz para o tabuleiro de ataque *)
   proximos_alvos : pos list;         (* Lista de tiros planeados (Modo Caça) *)
 }
+
+(*2. Configuração Inicial e Protocolo*)
+
+let ler_comando () =
+  try Some (read_line ()) with End_of_file -> None
+
+(* Função para colocar um barco no estado de defesa *)
+let adicionar_barco estado nome coords =
+  let novo_barco = { nome; posicoes = coords; atingidas = [] } in
+  { estado with defesa = novo_barco :: estado.defesa }
