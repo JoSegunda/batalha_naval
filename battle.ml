@@ -80,3 +80,26 @@ let rec loop_jogo estado =
       | Some "perdi" -> () (* Fim de jogo*)
       | _ -> loop_jogo estado
   | None -> ()
+
+
+(*Estado de jogo - como o agente se lembra do que está a acontecer*)
+
+(* Representa uma célula no tabuleiro de ataque *)
+type estado_casa = Desconhecido | Agua | Acerto | Afundado
+
+type estado_jogo = {
+  mutable tamanho : int;
+  mutable barcos_defesa : (string * (int * int) list ref) list; (* Nome e lista de coordenadas vivas *)
+  tabuleiro_ataque : estado_casa array array;
+  mutable proximos_tiros : (int * int) list; (* Fila para o Modo Caça *)
+  mutable ja_tentados : (int * int) list; (* Para não repetir tiros *)
+}
+
+(* Estado inicial padrão (8x8) *)
+let criar_estado n = {
+  tamanho = n;
+  barcos_defesa = [];
+  tabuleiro_ataque = Array.make_matrix n n Desconhecido;
+  proximos_tiros = [];
+  ja_tentados = [];
+}
