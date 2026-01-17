@@ -38,3 +38,12 @@ let ler_comando () =
 let adicionar_barco estado nome coords =
   let novo_barco = { nome; posicoes = coords; atingidas = [] } in
   { estado with defesa = novo_barco :: estado.defesa }
+
+(*
+coordenadas para um Porta-aviões centralizado em (L, C) na 
+vertical seriam:
+Corpo: (L, C-1), (L, C), (L, C+1)
+Braço: (L-1, C), (L-2, C)
+
+
+*)
