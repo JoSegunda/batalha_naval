@@ -103,3 +103,28 @@ let criar_estado n = {
   proximos_tiros = [];
   ja_tentados = [];
 }
+
+
+(*Lógica de Defesa (Receber Tiro) - Quando o inimigo diz tiro L C, 
+precisamos de verificar se ele acertou em algum dos nossos barcos.*)
+
+let processar_tiro_recebido estado l c =
+  let acertou = ref None in
+  (* Verifica em cada barco se a coordenada (l, c) existe *)
+  List.iter (fun (nome, coords) ->
+    if List.mem (l, c) !coords then (
+      acertou := Some (nome, coords);
+      (* Remove a coordenada atingida (o "cano" do barco)  *)
+      coords := List.filter (fun p -> p <> (l, c)) !coords
+    )
+  ) estado.barcos_defesa;
+
+  match !acertou with
+  | None -> "agua" 
+  | Some (nome, coords) ->
+      if !coords = [] then (
+        (* Se não restam coordenadas, o barco afundou  *)
+        estado.barcos_defesa <- List.filter (fun (n, _) -> n <> nome) estado.barcos_defesa;
+        if estado.barcos_defesa = [] then "perdi" else "afundado " ^ nome
+      ) else "tiro " ^ nome 
+
