@@ -6,7 +6,7 @@ Para gerir o estado do jogo de forma eficiente e cumprir os requisitos de memór
 ### Representação do Tabuleiro
 
     
-*   **Dicionário de Defesa:** Uma lista de registos (records) ou mapas onde cada entrada representa um barco da frota444. Cada barco contém:+1
+*   **Dicionário de Defesa:** Uma lista de registos (records) ou mapas onde cada entrada representa um barco da frota444. Cada barco contém:
     
     *   **Nome:** Identificador (ex: "fragata")5.
         
@@ -36,7 +36,7 @@ O agente foi desenvolvido para ser independente de mensagens de versão ou metad
 
 1.  Bashocamlc -o agente\_batalha\_naval agente.ml
     
-2.  O agente comunica via stdin/stdout. Pode ser testado manualmente ou via script:Bash./agente\_batalha\_navalNota: O agente aguarda comandos como init N, random ou tiro L C 101010101010101010. 11+3
+2.  O agente comunica via stdin/stdout. Pode ser testado manualmente ou via script:Bash./agente\_batalha\_navalNota: O agente aguarda comandos como init N, random ou tiro L C 101010101010101010. 11
     
 
 3\. Estratégia de IA
@@ -69,6 +69,18 @@ Se o agente obtiver dois acertos num barco (ex: duas vezes tiro fragata), a IA a
 
 Ao afundar um barco, o agente utiliza a regra de posicionamento estrito:
 
-*   **Zona de Segurança:** Como os barcos não se podem tocar (nem nas diagonais), o agente marca automaticamente todas as células adjacentes ao barco afundado como Agua20202020.+1
+*   **Zona de Segurança:** Como os barcos não se podem tocar (nem nas diagonais), o agente marca automaticamente todas as células adjacentes ao barco afundado como Agua20202020.
     
 *   Isto evita o desperdício de turnos a atacar células que obrigatoriamente estão vazias21.
+
+**Ação do Usuário/AdversárioReação do Agente**Envia init 10
+
+##Resumo do fluxo de trabalho
+
+Redimensiona estruturas internas para $10 \\times 10$17.
+Envia random
+Posiciona 8 barcos sem que se toquem18181818.
+Envia vou eu
+Escolhe uma coordenada e imprime tiro L C19191919.
+Envia tiro 0 0
+Verifica se algo foi atingido e responde (ex: agua)20202020.
