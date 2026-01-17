@@ -48,5 +48,15 @@ Braço: (L-1, C), (L-2, C)
 
 *)
 
-(* Modo caça *)
+(* Modo caça Se acertarmos num barco (tiro <barco>), 
+devemos adicionar as células adjacentes à nossa lista de 
+proximos_alvos.*)
 
+let obter_adjacentes (l, c) n =
+  [(l-1, c); (l+1, c); (l, c-1); (l, c+1)]
+  |> List.filter (fun (nl, nc) -> nl >= 0 && nl < n && nc >= 0 && nc < n)
+
+(* Quando recebemos 'tiro fragata' em (L, C) *)
+let atualizar_caça estado (l, c) =
+  let novos_alvos = obter_adjacentes (l, c) estado.tamanho in
+  { estado with proximos_alvos = novos_alvos @ estado.proximos_alvos }
