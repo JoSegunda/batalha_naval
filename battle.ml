@@ -128,3 +128,27 @@ let processar_tiro_recebido estado l c =
         if estado.barcos_defesa = [] then "perdi" else "afundado " ^ nome
       ) else "tiro " ^ nome 
 
+(*Lógica de Ataque (Estratégia de Caça) - Se não temos alvos na 
+lista, atiramos ao acaso. Se acertámos antes, verificamos as 
+vizinhanças.*)
+
+let escolher_tiro estado =
+  match estado.proximos_tiros with
+  | (l, c) :: resto -> 
+      estado.proximos_tiros <- resto; (l, c)
+  | [] -> 
+      (* Estratégia simples: procura a próxima casa Desconhecida *)
+      let rec procurar l c =
+        if l >= estado.tamanho then (0, 0) (* Falha de segurança *)
+        else if c >= estado.tamanho then procurar (l + 1) 0
+        else if not (List.mem (l, c) estado.ja_tentados) then (l, c)
+        else procurar l (c + 1)
+      in procurar 0 0
+
+let adicionar_vizinhos estado l c =
+  let vizinhos = [(l-1, c); (l+1, c); (l, c-1); (l, c+1)] in
+  let validos = List.filter (fun (nl, nc) ->
+    nl >= 0 && nl < estado.tamanho && nc >= 0 && nc < estado.tamanho &&
+    not (List.mem (nl, nc) estado.ja_tentados)
+  ) vizinhos in
+  estado.proximos_tiros <- estado.proximos_tiros @ validos 
