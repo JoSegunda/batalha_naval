@@ -60,3 +60,23 @@ let obter_adjacentes (l, c) n =
 let atualizar_caça estado (l, c) =
   let novos_alvos = obter_adjacentes (l, c) estado.tamanho in
   { estado with proximos_alvos = novos_alvos @ estado.proximos_alvos }
+
+(* Função para responder a um ataque do inimigo *)
+let responder_ao_tiro estado cmd =
+  (* TODO: Implementar lógica para processar o comando de tiro *)
+  ("OK", estado)
+
+  (*Loop que alterna entre atacar e se defender*)
+
+let rec loop_jogo estado =
+  match ler_comando () with
+  | Some cmd ->
+      if String.starts_with ~prefix:"tiro" cmd then
+        (* O inimigo atacou-nos! *)
+        let resposta, novo_estado = responder_ao_tiro estado cmd in
+        print_endline resposta;
+        flush stdout;
+        loop_jogo novo_estado
+      | Some "perdi" -> () (* Fim de jogo*)
+      | _ -> loop_jogo estado
+  | None -> ()
