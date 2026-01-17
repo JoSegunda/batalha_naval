@@ -77,10 +77,9 @@ Ao afundar um barco, o agente utiliza a regra de posicionamento estrito:
 
 ##Resumo do fluxo de trabalho
 
-Redimensiona estruturas internas para $10 \\times 10$17.
-Envia random
-Posiciona 8 barcos sem que se toquem18181818.
-Envia vou eu
-Escolhe uma coordenada e imprime tiro L C19191919.
-Envia tiro 0 0
-Verifica se algo foi atingido e responde (ex: agua)20202020.
+| Ação do Usuário / Adversário | Reação do Agente |
+|-----------------------------|------------------|
+| Envia `init 10`              | Redimensiona estruturas internas para 10 × 10. |
+| Envia `random`               | Posiciona 8 barcos sem que se toquem. |
+| Envia `vou eu`               | Escolhe uma coordenada e imprime `tiro L C`. |
+| Envia `tiro 0 0`             | Verifica se algo foi atingido e responde (ex: `agua`). |
