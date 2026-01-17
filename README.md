@@ -78,7 +78,7 @@ Ao afundar um barco, o agente utiliza a regra de posicionamento estrito:
 
 **Ação do Usuário/AdversárioReação do Agente**Envia init 10
 
-##Resumo do fluxo de trabalho
+## Resumo do fluxo de trabalho
 
 | Ação do Usuário / Adversário | Reação do Agente |
 |-----------------------------|------------------|
