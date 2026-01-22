@@ -1,3 +1,4 @@
 *.text
 *.cmi
 *.cmo
+test/
