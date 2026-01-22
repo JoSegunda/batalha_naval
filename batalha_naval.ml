@@ -1,7 +1,3 @@
-
-
-(*print_string "Hello World\n";;*)
-
 (*1. Definição de Tipos e Estruturas de Dados*)
 
 (* Representa uma coordenada (Linha, Coluna) *)
